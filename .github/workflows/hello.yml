@@ -1,0 +1,23 @@
+name: Actions_Aufgabe_1
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    gruesse:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Repository auschecken
+            uses: actions/checkout@v4
+
+          - name: Begrüßung ausgeben
+            run: echo "Hallo von GitHub Actions!"
+          
+          - name: Aktuelles Datum anzeigen
+            run: date
+        
+          - name: Dateien im Repository anzeigen
+            run: ls -la
