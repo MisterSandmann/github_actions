@@ -2,11 +2,15 @@ name: Actions_Aufgabe_1
 
 on:
     push:
+       branches:
+            - main
+
+    pull_request:
         branches:
             - main
 
 jobs:
-    gruesse:
+    hello-world:
         runs-on: ubuntu-latest
 
         steps:
@@ -21,3 +25,9 @@ jobs:
         
           - name: Dateien im Repository anzeigen
             run: ls -la
+        
+          - name: Node.js Version anzeigen
+            run: node --version
+
+          - name: aktuellen Git Branch anzeigen
+            run: git branch
