@@ -1,0 +1,47 @@
+name: Terraform Test
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch: # Manuelle Ausführung möglich
+
+jobs:
+    terraform-test:
+        runs-on: ubuntu-latest
+
+        # WICHTIG: Environment binden!
+        environment: AWS_Terraform
+
+        steps:
+          - name: Repository auschecken
+            uses: actions/checkout@v4
+
+          - name: Environment-Variablen anzeigen
+            run: |
+              echo "=== Environment Configuration ==="
+              echo "Environment: AWS_Terraform"
+              echo "AWS REGION: ${{ vars.AWS_REGION }}"
+              echo "AWS ID: ${{ vars.AMI_ID }}"
+              echo "Instance Type: ${{ vars.INSTANCE_TYPE }}"
+              echo "AWS Access Key: ${{ secrets.AWS_ACCESS_KEY_ID != '' && 'Gesetzt' || 'Fehlt' }}"
+              echo "=================================="
+
+          - name: AWS CLI installieren und konfigurieren
+            uses: aws-actions/configure-aws-credentials@v4
+            with:
+              # Secret aus dem Environment
+              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              # Variable aus dem Environment
+              aws-region: ${{ vars.AWS_REGION }}
+
+          - name: AWS-Verbindung testen
+            run: |
+              echo "Testing AWS connection..."
+              aws sts get-caller-identity
+              echo "AWS credentials are valid!"
+              echo "Connected to region: ${{ vars.AWS_REGION}}"
+
+
+
