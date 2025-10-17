@@ -21,7 +21,7 @@ provider "aws" {
 # lokale Variablen für die wiederkehrende Werte
 locals {
     common_tags = {
-        project_name     = "GitHubActions-Workshop"
+        Project     = "GitHubActions-Workshop"
         Environment = var.environment
         ManagedBy   = "Terraform"
         CreatedBy   = "GitHub-Actions"
@@ -34,7 +34,7 @@ resource "aws_vpc" "main" {
     enable_dns_hostnames = true
     enable_dns_support   = true
 
-    tags = merge(locals.common.tags, {
+    tags = merge(locals.common_tags, {
         Name = "${var.project_name}-vpc"
     })  
 }
@@ -123,7 +123,9 @@ resource "aws_key_pair" "deployer" {
   key_name   = "${var.project_name}-key"
   public_key = var.ssh_public_key
 
-  tags = locals.common_tags
+  tags = merge(locals.common_tags, {
+    Name = "${var.project_name}-key_pair"
+  })
 }
 
 # User Data Script - Wird beim EC2-Start ausgeführt
