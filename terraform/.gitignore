@@ -1,0 +1,30 @@
+# Terraform State-Dateien (enthalten sensible Daten!)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform Variable-Dateien (können Secrets enthalten!)
+terraform.tfvars
+*.auto.tfvars
+
+# Terraform-interne Dateien
+.terraform/
+.terraform.lock.hcl
+
+# Crash-Logs
+crash.log
+crash.*.log
+
+# Override-Dateien
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI-Konfiguration
+.terraformrc
+terraform.rc
+
+# SSH-Keys
+*.pem
+*.key
