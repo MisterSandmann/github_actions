@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 # lokale Variablen für die wiederkehrende Werte
-local {
+localss {
     common_tags = {
         Project     = "GitHubActions-Workshop"
         Environment = var.environment
@@ -34,7 +34,7 @@ resource "aws_vpc" "main" {
     enable_dns_hostnames = true
     enable_dns_support   = true
 
-    tags = merge(local.common_tags, {
+    tags = merge(locals.common_tags, {
         Name = "${var.project_name}-vpc"
     })  
 }
@@ -43,7 +43,7 @@ resource "aws_vpc" "main" {
 resource "aws_internet_gateway" "main" {
     vpc_id = aws_vpc.main.id
 
-    tags = merge(local.common_tags, {
+    tags = merge(locals.common_tags, {
         Name = "${var.project_name}-igw"
     })
 }
@@ -55,7 +55,7 @@ resource "aws_subnet" "public" {
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
 
-  tags = merge(local.common_tags, {
+  tags = merge(locals.common_tags, {
     Name = "${var.project_name}-public-subnet"
   })
 }
@@ -68,7 +68,7 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main.id
   }
-    tags = merge(local.common_tags, {
+    tags = merge(locals.common_tags, {
         Name = "${var.project_name}-public-rt"
     })
 }
@@ -112,7 +112,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(local.common_tags, {
+  tags = merge(locals.common_tags, {
     Name = "${var.project_name}-web-sg"
   })
 }
@@ -123,13 +123,13 @@ resource "aws_key_pair" "deployer" {
   key_name   = "${var.project_name}-key"
   public_key = var.ssh_public_key
 
-  tags = merge(local.common_tags, {
+  tags = merge(locals.common_tags, {
     Name = "${var.project_name}-key_pair"
   })
 }
 
 # User Data Script - Wird beim EC2-Start ausgeführt
-local {
+localss {
     user_data = <<-EOF
     #!/bin/bash
     set -e
@@ -215,7 +215,7 @@ resource "aws_instance" "web" {
     
     key_name = var.ssh_public_key != "" ? aws_key_pair.deployer[0].key_name : null
 
-    user_data = locals.user_data
+    user_data = localss.user_data
 
     # Root Volume
     root_block_device {
@@ -223,12 +223,12 @@ resource "aws_instance" "web" {
       volume_type = "gp3"
       encrypted = true
 
-      tags = merge(local.common_tags, {
+      tags = merge(locals.common_tags, {
         Name = "${var.project_name}-root-volume"
       })
     }
 
-    tags = merge(local.common_tags, {
+    tags = merge(locals.common_tags, {
         Name = "${var.project_name}-webserver"
     })
 }
