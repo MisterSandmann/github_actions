@@ -129,7 +129,7 @@ resource "aws_key_pair" "deployer" {
 }
 
 # User Data Script - Wird beim EC2-Start ausgeführt
-local {
+locals {
     user_data = <<-EOF
     #!/bin/bash
     set -e
