@@ -17,7 +17,7 @@ on:
 # Umgebungsvariablen auf Workflow-Ebene
 env:
   TF_VERSION: '1.6.0'
-  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
 
 jobs:
   terraform-plan:
@@ -37,7 +37,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
@@ -64,7 +64,7 @@ jobs:
         id: plan
         run: |
           terraform plan \
-            -var="aws_region=${{ secrets.AWS_REGION }}" \
+            -var="aws_region=${{ vars.AWS_REGION }}" \
             -var="project_name=github-actions-demo" \
             -var="environment=production" \
             -out=tfplan
@@ -106,7 +106,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
@@ -159,7 +159,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
@@ -173,7 +173,7 @@ jobs:
       - name: Terraform Destroy
         run: |
           terraform destroy \
-            -var="aws_region=${{ secrets.AWS_REGION }}" \
+            -var="aws_region=${{ vars.AWS_REGION }}" \
             -var="project_name=github-actions-demo" \
             -var="environment=production" \
             -auto-approve
