@@ -21,7 +21,7 @@ provider "aws" {
 # lokale Variablen für die wiederkehrende Werte
 locals {
     common_tags = {
-        Project     = "GitHubActions-Workshop"
+        project_name     = "GitHubActions-Workshop"
         Environment = var.environment
         ManagedBy   = "Terraform"
         CreatedBy   = "GitHub-Actions"
