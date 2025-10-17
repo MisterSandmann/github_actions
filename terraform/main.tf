@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 # lokale Variablen für die wiederkehrende Werte
-localss {
+locals {
     common_tags = {
         Project     = "GitHubActions-Workshop"
         Environment = var.environment
