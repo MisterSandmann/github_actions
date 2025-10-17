@@ -23,6 +23,7 @@ jobs:
   terraform-plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    environment: AWS_Terraform
 
     # Terraform outputs als Job-Output verfügbar machen
     outputs:
