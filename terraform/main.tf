@@ -22,7 +22,7 @@ provider "aws" {
 locals {
     common_tags = {
         Project     = "GitHubActions-Workshop"
-        Environment = var.Environment
+        Environment = var.environment
         ManagedBy   = "Terraform"
         CreatedBy   = "GitHub-Actions"
     }
