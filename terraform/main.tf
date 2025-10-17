@@ -64,7 +64,7 @@ resource "aws_subnet" "public" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
-  route = {
+  route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main.id
   }
@@ -86,7 +86,7 @@ resource "aws_security_group" "web" {
   vpc_id      = aws_vpc.main.id
 
   # HTTP (Port 80) von überall
-  ingress = {
+  ingress {
     description = "HTTP from anywhere"
     from_port = 80
     to_port = 80
