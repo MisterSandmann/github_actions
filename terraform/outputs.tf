@@ -36,4 +36,5 @@ output "webserver_url" {
 output "ssh_command" {
   description = "SSH-Befehl zum Verbinden"
   value       = var.ssh_public_key != "" ? "ssh -i ~/.ssh/your-key ubuntu@${aws_instance.web.public_ip}" : "SSH nicht konfiguriert"
+  sensitive   = true
 }
